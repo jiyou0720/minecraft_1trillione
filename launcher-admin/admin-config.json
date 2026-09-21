@@ -1,0 +1,45 @@
+{
+  "launcher": {
+    "name": "1억 기부 프로젝트",
+    "shortName": "DonationLauncher",
+    "appId": "kr.co.donation.launcher",
+    "version": "0.2.4",
+    "description": "1억 기부 프로젝트 전용 Minecraft 런처",
+    "dataDirectoryName": "DonationLauncher",
+    "microsoftClientId": "57af1099-cd45-4b4c-aa67-819759b4c9f7",
+    "distributionUrl": "http://127.0.0.1:38941/distribution.json",
+    "updateRepository": {
+      "owner": "CHANGE_ME",
+      "repo": "CHANGE_ME"
+    }
+  },
+  "server": {
+    "id": "donation-main",
+    "name": "1억 기부 프로젝트",
+    "description": "경제·농경·성장형 야생 서버",
+    "address": "127.0.0.1:25565",
+    "addressConfigured": false,
+    "minecraftVersion": "1.12.2",
+    "forgeVersion": "14.23.5.2864",
+    "packVersion": "0.1.4",
+    "autoConnect": false,
+    "minimumMemoryMb": 2048,
+    "recommendedMemoryMb": 4096
+  },
+  "hosting": {
+    "baseUrl": "http://127.0.0.1:38941/"
+  },
+  "links": {
+    "home": "#",
+    "support": "#",
+    "discord": "#",
+    "youtube": "#",
+    "instagram": "#",
+    "x": "#"
+  },
+  "welcome": {
+    "title": "1억 기부 프로젝트에 오신 것을 환영합니다",
+    "description": "농사와 경제 활동으로 성장하고, 모두가 힘을 합쳐 서버 누적 기부금 1억 원을 달성하는 Forge 모드 서버입니다.",
+    "cta": "Microsoft 계정으로 로그인하면 필요한 Java, Forge, 모드가 자동으로 준비됩니다."
+  }
+}

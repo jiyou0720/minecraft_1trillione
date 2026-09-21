@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="1억 기부 프로젝트">
+  <defs>
+    <linearGradient id="coin" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffd66b"/>
+      <stop offset="1" stop-color="#ef9f35"/>
+    </linearGradient>
+    <linearGradient id="leaf" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#38a169"/>
+      <stop offset="1" stop-color="#8bd450"/>
+    </linearGradient>
+  </defs>
+  <circle cx="128" cy="128" r="116" fill="#14251f" stroke="#79c56a" stroke-width="8"/>
+  <circle cx="118" cy="134" r="72" fill="url(#coin)" stroke="#fff0b3" stroke-width="7"/>
+  <path d="M155 72c18-30 48-29 61-25-2 28-18 49-55 48" fill="url(#leaf)" stroke="#c6f29c" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M161 93c13-18 29-30 47-40" fill="none" stroke="#e9ffd2" stroke-width="5" stroke-linecap="round"/>
+  <text x="118" y="162" text-anchor="middle" font-family="Arial, sans-serif" font-size="78" font-weight="700" fill="#643f19">₩</text>
+</svg>

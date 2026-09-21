@@ -1,0 +1,42 @@
+# Generated from launcher-admin/admin-config.json. Do not edit directly.
+
+[ejs.app]
+title = "1억 기부 프로젝트"
+
+[ejs.landing]
+mediaGitHubURL = "#"
+mediaXURL = "#"
+mediaInstagramURL = "#"
+mediaYouTubeURL = "#"
+mediaDiscordURL = "#"
+launchButton = "게임 시작"
+launchButtonPlaceholder = "&#8226; 서버 설정을 확인하세요"
+serverStatus = "서버"
+serverStatusPlaceholder = "주소 미설정"
+settingsTooltip = "설정"
+usernameEditButton = "계정"
+newsButton = "공지"
+
+[ejs.settings]
+sourceGithubLink = "#"
+supportLink = "#"
+
+[ejs.welcome]
+welcomeHeader = "1억 기부 프로젝트에 오신 것을 환영합니다"
+welcomeDescription = "농사와 경제 활동으로 성장하고, 모두가 힘을 합쳐 서버 누적 기부금 1억 원을 달성하는 Forge 모드 서버입니다."
+welcomeDescCTA = "Microsoft 계정으로 로그인하면 필요한 Java, Forge, 모드가 자동으로 준비됩니다."
+continueButton = "시작하기"
+
+[ejs.loginOptions]
+loginOptionsTitle = "로그인 방식"
+loginWithMicrosoft = "Microsoft 계정으로 로그인"
+cancelButton = "취소"
+
+[js.index]
+microsoftLoginTitle = "Microsoft 로그인"
+microsoftLogoutTitle = "Microsoft 로그아웃"
+
+[js.landing.discord]
+loading = "게임을 준비하는 중"
+joining = "서버에 접속하는 중"
+joined = "게임 실행 완료"

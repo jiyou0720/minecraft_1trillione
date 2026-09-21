@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101b18">
+  <meta name="description" content="1억 기부 프로젝트 런처: Minecraft Java Edition 1.12.2 Forge 커뮤니티 서버를 위한 전용 Windows 런처 안내.">
+  <title>1억 기부 프로젝트 런처</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23101b18'/%3E%3Cpath d='M13 45h38M18 36l11-17 8 12 5-7 8 12' fill='none' stroke='%23b7e577' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <style>
+    :root { color-scheme: dark; font-family: "Malgun Gothic", "Apple SD Gothic Neo", system-ui, sans-serif; background: #101b18; color: #edf3e9; }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; min-width: 320px; font-size: 16px; line-height: 1.7; background: radial-gradient(circle at 82% 3%, #274031 0, transparent 38%), #101b18; }
+    a { color: inherit; }
+    .wrap { width: min(1080px, calc(100% - 40px)); margin: 0 auto; }
+    header { border-bottom: 1px solid #33443a; }
+    .nav { min-height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .brand { font-weight: 800; letter-spacing: -.04em; text-decoration: none; font-size: 18px; white-space: nowrap; }
+    .brand-mark { color: #b7e577; margin-right: 10px; }
+    nav { display: flex; gap: 24px; flex-wrap: wrap; }
+    nav a { text-decoration: none; color: #c1cec1; font-size: 14px; }
+    nav a:hover, nav a:focus-visible { color: #b7e577; text-decoration: underline; }
+    .hero { padding: 88px 0 76px; display: grid; grid-template-columns: 1.45fr .8fr; align-items: end; gap: 50px; }
+    .eyebrow { display: inline-block; color: #b7e577; font-size: 14px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+    h1 { font-size: clamp(40px, 7vw, 76px); line-height: 1.12; letter-spacing: -.075em; margin: 16px 0 24px; }
+    .hero p { color: #c8d4c8; font-size: 19px; max-width: 670px; margin: 0; }
+    .hero-note { border-left: 3px solid #b7e577; background: #192b22; padding: 24px 26px; color: #d9e5d5; }
+    .hero-note strong { display: block; color: #b7e577; margin-bottom: 8px; }
+    .hero-note p { font-size: 16px; }
+    .band { border-top: 1px solid #33443a; border-bottom: 1px solid #33443a; background: #17241d; }
+    .facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; padding: 28px 0; }
+    .facts span { display: block; color: #aab9ab; font-size: 14px; }
+    .facts strong { display: block; font-size: 18px; margin-top: 2px; }
+    section { padding: 70px 0; }
+    section + section { border-top: 1px solid #33443a; }
+    h2 { font-size: clamp(28px, 4vw, 42px); line-height: 1.25; letter-spacing: -.05em; margin: 0 0 24px; }
+    .lead { max-width: 760px; color: #c8d4c8; margin: 0 0 28px; }
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .card { border: 1px solid #3a4e3e; background: #1a2a20; border-radius: 14px; padding: 26px; }
+    .card .num { display: block; font-size: 14px; color: #b7e577; font-weight: 700; margin-bottom: 22px; }
+    .card h3 { font-size: 21px; margin: 0 0 10px; letter-spacing: -.03em; }
+    .card p { color: #c8d4c8; margin: 0; }
+    .details { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+    .details p { color: #c8d4c8; margin: 0 0 16px; }
+    dl { margin: 0; border-top: 1px solid #3a4e3e; }
+    dl div { border-bottom: 1px solid #3a4e3e; padding: 15px 0; }
+    dt { color: #aab9ab; font-size: 14px; }
+    dd { margin: 4px 0 0; overflow-wrap: anywhere; font-weight: 600; }
+    .english { background: #1a2a20; border: 1px solid #3a4e3e; border-radius: 14px; padding: 28px; max-width: 850px; }
+    .english p { margin: 0; color: #d9e5d5; }
+    footer { border-top: 1px solid #33443a; padding: 30px 0 48px; color: #aab9ab; font-size: 14px; }
+    @media (max-width: 760px) { .hero, .details { grid-template-columns: 1fr; } .hero { padding: 60px 0; gap: 28px; } .grid { grid-template-columns: 1fr; } .facts { grid-template-columns: 1fr; gap: 16px; } nav { gap: 12px; } .nav { align-items: flex-start; flex-direction: column; padding: 18px 0; } section { padding: 50px 0; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap nav">
+      <a class="brand" href="#top"><span class="brand-mark" aria-hidden="true">◆</span>1억 기부 프로젝트</a>
+      <nav aria-label="페이지 이동">
+        <a href="#project">프로젝트</a><a href="#launcher">런처</a><a href="#account">계정과 데이터</a><a href="#review">App review</a>
+      </nav>
+    </div>
+  </header>
+  <main id="top">
+    <div class="wrap hero">
+      <div>
+        <span class="eyebrow">Minecraft Java Edition · Forge</span>
+        <h1>함께 키우고,<br>함께 달성하는 세계.</h1>
+        <p>1억 기부 프로젝트는 농사·경제·성장을 중심으로 운영을 준비 중인 Minecraft 1.12.2 Forge 커뮤니티 서버입니다. 이 페이지는 서버와 전용 Windows 런처의 목적을 안내합니다.</p>
+      </div>
+      <div class="hero-note">
+        <strong>출시 준비 중</strong>
+        <p>전용 런처의 Minecraft 서비스 앱 등록 승인을 진행 중입니다. 승인과 실행 검증이 완료되기 전까지 다운로드를 공개하지 않습니다.</p>
+      </div>
+    </div>
+    <div class="band"><div class="wrap facts"><div><span>게임 버전</span><strong>Minecraft Java 1.12.2</strong></div><div><span>모드 로더</span><strong>Forge 14.23.5.2864</strong></div><div><span>런처 환경</span><strong>Windows x64</strong></div></div></div>
+    <section id="project" class="wrap">
+      <span class="eyebrow">Project</span>
+      <h2>농사와 경제 활동이 이어지는 서버</h2>
+      <p class="lead">유저가 작물을 수확하고 거래하며 성장하는 야생 서버를 지향합니다. 최종 목표는 서버 구성원이 게임 내 재화를 모아 누적 기부액 1억에 도달하는 것입니다. 여기서 ‘기부’는 게임 내 경제 시스템의 목표이며, 현실의 금전 기부나 자선 모금을 뜻하지 않습니다.</p>
+    </section>
+    <section id="launcher" class="wrap">
+      <span class="eyebrow">Launcher</span>
+      <h2>전용 런처가 맡는 일</h2>
+      <div class="grid">
+        <div class="card"><span class="num">01 / 계정</span><h3>Microsoft 로그인</h3><p>각 사용자가 본인의 Microsoft 계정으로 로그인합니다. 런처는 Microsoft 비밀번호를 직접 입력받지 않습니다.</p></div>
+        <div class="card"><span class="num">02 / 설치</span><h3>Forge와 모드 준비</h3><p>서버에 필요한 Forge 버전과 지정된 모드를 검사하고 설치하도록 설계했습니다.</p></div>
+        <div class="card"><span class="num">03 / 실행</span><h3>Java Edition 실행</h3><p>Minecraft: Java Edition 소유권과 프로필을 확인한 뒤 게임을 실행합니다. 정품 인증을 우회하지 않습니다.</p></div>
+      </div>
+    </section>
+    <section id="account" class="wrap">
+      <span class="eyebrow">Account & data</span>
+      <h2>로그인과 데이터 처리</h2>
+      <div class="details">
+        <div><p>런처는 Microsoft 인증을 통해 Xbox 및 Minecraft 서비스에 접근하고, 게임 실행에 필요한 Minecraft 프로필을 확인합니다. 사용자의 Microsoft 비밀번호는 런처가 수집하지 않습니다.</p><p>로그인 유지에 필요한 인증 토큰은 사용자 PC의 런처 설정에 로컬 저장됩니다. 사용자는 런처의 계정 제거 기능으로 저장된 계정을 삭제할 수 있습니다.</p></div>
+        <dl><div><dt>애플리케이션 이름</dt><dd>1억 기부 프로젝트 런처</dd></div><div><dt>Microsoft 애플리케이션 ID</dt><dd>57af1099-cd45-4b4c-aa67-819759b4c9f7</dd></div><div><dt>리디렉션 URI</dt><dd>https://login.microsoftonline.com/common/oauth2/nativeclient</dd></div><div><dt>현재 상태</dt><dd>Minecraft 서비스 앱 승인 신청 준비 중</dd></div></dl>
+      </div>
+    </section>
+    <section id="review" class="wrap">
+      <span class="eyebrow">For app reviewers</span>
+      <h2>Application purpose</h2>
+      <div class="english"><p>This independent Windows launcher is being developed for a Minecraft: Java Edition 1.12.2 Forge community server. It lets players who own the game sign in with their own Microsoft accounts, prepares the required Forge version and server mods, and launches Minecraft. Minecraft Services access is requested only to authenticate the player and retrieve their Minecraft profile for legitimate game launch. The launcher does not collect Microsoft passwords or bypass game ownership. It is not affiliated with Mojang or Microsoft. The server's “100 million donation” goal refers solely to in-game currency, not real-world fundraising.</p></div>
+    </section>
+  </main>
+  <footer><div class="wrap">독립 커뮤니티 프로젝트 · Mojang 및 Microsoft의 공식 제품이 아닙니다.</div></footer>
+</body>
+</html>

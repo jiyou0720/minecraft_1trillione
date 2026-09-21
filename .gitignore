@@ -1,0 +1,49 @@
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Java / Gradle
+**/.gradle/
+**/build/
+**/run/
+**/*.class
+
+# Node / Electron
+**/node_modules/
+**/dist/
+**/out/
+**/*.exe
+**/*.blockmap
+**/latest*.yml
+
+# Credentials and local state
+**/.env
+**/.env.*
+**/config.json
+**/accounts.json
+**/*token*
+
+# Minecraft runtime data
+**/world/
+**/logs/
+**/crash-reports/
+runtime-data/libraries/
+runtime-data/assets/
+runtime-data/versions/
+**/runtime/
+**/java8/
+
+# Third-party modpacks and generated repositories
+launcher-admin/mods/
+launcher-admin/pack/
+
+# Keep the project's own release JAR only
+*.jar
+!release/donationserver-0.2.11.jar
+!server-mod/gradle/wrapper/gradle-wrapper.jar
+!launcher/build/
+!launcher/build/icon.png
+!approval-site/dist/
+!approval-site/dist/index.html

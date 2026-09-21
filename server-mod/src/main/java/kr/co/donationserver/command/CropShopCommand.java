@@ -1,0 +1,3 @@
+package kr.co.donationserver.command;
+import kr.co.donationserver.network.NetworkHandler;import net.minecraft.command.*;import net.minecraft.entity.player.EntityPlayerMP;import net.minecraft.server.MinecraftServer;
+public class CropShopCommand extends PublicPlayerCommand {public String getName(){return "판매상점";}public int getRequiredPermissionLevel(){return 0;}public String getUsage(ICommandSender s){return "/판매상점";}public void execute(MinecraftServer server,ICommandSender sender,String[] args)throws CommandException{getCommandSenderAsPlayer(sender).sendMessage(kr.co.donationserver.util.Texts.text("&e상점 NPC를 우클릭하면 등록된 상품을 구매하거나 판매할 수 있습니다."));}}

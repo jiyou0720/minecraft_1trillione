@@ -1,0 +1,6 @@
+package kr.co.donationserver.client;
+import kr.co.donationserver.client.gui.GuiFastTravel;import kr.co.donationserver.util.Texts;import net.minecraft.client.Minecraft;import net.minecraft.client.settings.KeyBinding;import net.minecraftforge.client.event.RenderGameOverlayEvent;import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;import net.minecraftforge.fml.common.gameevent.InputEvent;import net.minecraftforge.fml.relauncher.ReflectionHelper;import org.lwjgl.input.Keyboard;
+public enum ClientEvents {INSTANCE;
+ @SubscribeEvent public void key(InputEvent.KeyInputEvent e){Minecraft mc=Minecraft.getMinecraft();if(mc.player!=null&&mc.currentScreen==null&&Keyboard.getEventKeyState()&&Keyboard.getEventKey()==Keyboard.KEY_F&&(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)||Keyboard.isKeyDown(Keyboard.KEY_RSHIFT))){KeyBinding key=mc.gameSettings.keyBindSwapHands;KeyBinding.setKeyBindState(key.getKeyCode(),false);ReflectionHelper.setPrivateValue(KeyBinding.class,key,0,"pressTime","field_151474_i");mc.displayGuiScreen(new GuiFastTravel());}}
+ @SubscribeEvent public void hud(RenderGameOverlayEvent.Text e){if(Minecraft.getMinecraft().player==null)return;e.getLeft().add("§6잔액 §f"+Texts.money(ClientState.balance));e.getLeft().add("§6내 기부 §f"+Texts.money(ClientState.personal));e.getLeft().add("§6서버 기부 §f"+Texts.money(ClientState.total));}
+}

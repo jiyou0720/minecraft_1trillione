@@ -1,0 +1,60 @@
+appId: 'kr.co.donation.launcher'
+productName: '1억 기부 프로젝트'
+artifactName: 'donationlauncher-setup-${version}.${ext}'
+
+copyright: 'Copyright © 2026 Server Operator; Helios Launcher © Daniel Scalzi'
+
+asar: true
+compression: 'maximum'
+
+files:
+  - '!{dist,.gitignore,.vscode,docs,dev-app-update.yml,.nvmrc,eslint.config.mjs}'
+
+extraResources:
+  - 'libraries'
+  - from: '../launcher-admin/pack'
+    to: 'pack'
+    filter:
+      - 'distribution.json'
+      - 'repo/**/*'
+      - 'servers/**/*'
+
+# Windows Configuration
+win: 
+  # Disabled for unsigned development builds. This also avoids Windows
+  # symlink privileges required by electron-builder's macOS signing helpers.
+  signAndEditExecutable: false
+  target: 
+    - target: 'nsis'
+      arch: 'x64'
+
+# Windows Installer Configuration
+nsis:
+  oneClick: false
+  perMachine: false
+  allowElevation: true
+  allowToChangeInstallationDirectory: true
+
+# macOS Configuration
+mac:
+  target:
+    - target: 'dmg'
+      arch:
+        - 'x64'
+        - 'arm64'
+  artifactName: '${productName}-setup-${version}-${arch}.${ext}'
+  category: 'public.app-category.games'
+
+# Linux Configuration
+linux: 
+  target: 'AppImage'
+  maintainer: 'Daniel Scalzi'
+  vendor: 'Daniel Scalzi'
+  synopsis: 'Modded Minecraft Launcher'
+  description: 'Custom launcher which allows users to join modded servers. All mods, configurations, and updates are handled automatically.'
+  category: 'Game'
+
+
+directories:
+  buildResources: 'build'
+  output: 'dist'

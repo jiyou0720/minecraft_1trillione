@@ -1,0 +1,16 @@
+[
+{
+  "modid": "donationserver",
+  "name": "1억 기부 서버 코어",
+  "description": "Forge 1.12.2 경제, 튜토리얼, 빠른 이동, 작물 판매 및 1억 기부 시스템.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Donation Server Team"],
+  "credits": "Built for the 100,000,000 donation project",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

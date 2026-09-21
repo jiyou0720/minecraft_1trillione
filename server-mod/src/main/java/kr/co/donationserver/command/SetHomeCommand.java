@@ -1,0 +1,3 @@
+package kr.co.donationserver.command;
+import kr.co.donationserver.data.*;import kr.co.donationserver.util.Texts;import net.minecraft.command.*;import net.minecraft.entity.player.EntityPlayerMP;import net.minecraft.server.MinecraftServer;
+public class SetHomeCommand extends PublicPlayerCommand {public String getName(){return "홈설정";}public int getRequiredPermissionLevel(){return 0;}public String getUsage(ICommandSender s){return "/홈설정";}public void execute(MinecraftServer server,ICommandSender sender,String[] args)throws CommandException{EntityPlayerMP p=getCommandSenderAsPlayer(sender);DonationData d=DonationData.get(p.world);d.player(p.getUniqueID()).home=LocationData.of(p);d.markDirty();p.sendMessage(Texts.text("&a현재 위치를 홈으로 설정했습니다."));}}
