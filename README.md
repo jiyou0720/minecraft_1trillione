@@ -33,10 +33,10 @@ npm ci
 npm start
 ```
 
-운영 설정은 `launcher-admin/admin-config.json`에서 변경할 수 있습니다. Microsoft Client ID는 공개 식별자이며 Client Secret이나 사용자 토큰은 저장소에 넣지 않습니다.
+운영 설정은 `launcher-admin/admin-config.json`에서 변경할 수 있습니다. 런처 0.2.5부터 자체 제작 코어 모드의 온라인 업데이트 목록을 확인합니다. Microsoft Client ID는 공개 식별자이며 Client Secret이나 사용자 토큰은 저장소에 넣지 않습니다.
 
 ## 배포 파일 안내
 
 Minecraft 원본 파일, Java 런타임, 테스트 월드, 로그, 사용자 계정 데이터와 제3자 모드 JAR은 저장소에 포함하지 않습니다. 각 모드는 해당 배포처와 라이선스 조건에 따라 별도로 받아야 합니다.
 
-최신 설치 방법은 `release/설치와_테스트.md`, 전체 명령어는 `release/명령어_전체목록_0.2.11.md`를 확인하세요.
+최신 설치 방법은 `release/설치와_테스트.md`, 전체 명령어는 `release/명령어_전체목록_0.2.12.md`를 확인하세요.

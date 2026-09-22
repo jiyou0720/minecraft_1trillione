@@ -3,11 +3,11 @@
     "name": "1억 기부 프로젝트",
     "shortName": "DonationLauncher",
     "appId": "kr.co.donation.launcher",
-    "version": "0.2.4",
+    "version": "0.2.5",
     "description": "1억 기부 프로젝트 전용 Minecraft 런처",
     "dataDirectoryName": "DonationLauncher",
     "microsoftClientId": "57af1099-cd45-4b4c-aa67-819759b4c9f7",
-    "distributionUrl": "http://127.0.0.1:38941/distribution.json",
+    "distributionUrl": "https://raw.githubusercontent.com/jiyou0720/minecraft_1trillione/main/launcher-feed/distribution.json",
     "updateRepository": {
       "owner": "CHANGE_ME",
       "repo": "CHANGE_ME"
@@ -21,13 +21,15 @@
     "addressConfigured": false,
     "minecraftVersion": "1.12.2",
     "forgeVersion": "14.23.5.2864",
-    "packVersion": "0.1.4",
+    "packVersion": "0.2.12",
     "autoConnect": false,
     "minimumMemoryMb": 2048,
     "recommendedMemoryMb": 4096
   },
   "hosting": {
-    "baseUrl": "http://127.0.0.1:38941/"
+    "baseUrl": "http://127.0.0.1:38941/",
+    "coreModBaseUrl": "https://raw.githubusercontent.com/jiyou0720/minecraft_1trillione/main/release/",
+    "moduleUrls": {}
   },
   "links": {
     "home": "#",

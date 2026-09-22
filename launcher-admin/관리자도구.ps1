@@ -173,6 +173,8 @@ switch ($명령) {
             throw '배포 도구가 distribution.json을 생성하지 못했습니다. 위 오류 로그를 확인하세요.'
         }
         Write-Host "배포 매니페스트 생성 완료: $distributionPath"
+        & node (Join-Path $AdminRoot 'scripts\create-online-feed.cjs')
+        if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
     }
     '배포검증' {
         & node (Join-Path $AdminRoot 'scripts\verify-distribution.cjs')

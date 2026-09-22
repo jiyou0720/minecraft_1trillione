@@ -30,15 +30,30 @@ Windows에서 `관리자도구.bat`을 실행하거나 아래 명령을 사용�
 .\관리자도구.ps1 런처빌드
 ```
 
-`배포생성` 결과는 `pack/distribution.json`, `pack/repo`, `pack/servers`입니다.
-기본 설정에서는 `런처빌드` 때 이 폴더를 설치 프로그램 안에 포함하므로 별도
-호스팅이 필요하지 않습니다. 모드나 서버 주소를 변경한 뒤에는 새 설치 프로그램을
-다시 배포해야 합니다. 원격 갱신을 원하면 HTTPS 호스팅 주소로 전환할 수 있습니다.
+`배포생성` 결과는 `pack/distribution.json`, `pack/repo`, `pack/servers`와
+`publish/distribution.json`입니다. `pack`은 설치 프로그램에 포함되는 기본본이고,
+`publish/distribution.json`은 온라인 업데이트 목록입니다. 런처는 실행 및 게임
+시작 시 온라인 목록을 확인하고 크기/해시가 달라진 파일만 받습니다. 온라인 목록에
+접속하지 못하면 내장 기본본으로 시작합니다. **기존 0.2.4 이하 런처는 0.2.5로
+한 번 교체해야 합니다.**
+
+## 코어 모드 업데이트 절차
+
+1. 서버와 `mods/required`에서 오래된 `donationserver-*.jar`를 폴더 밖으로 옮기고 새 JAR을 넣습니다.
+2. `admin-config.json`의 `server.packVersion`을 올립니다.
+3. `./관리자도구.ps1 배포생성`과 `./관리자도구.ps1 배포검증`을 실행합니다.
+4. 자체 제작 코어 JAR을 GitHub 저장소의 `release/`에 먼저 올리고, `publish/distribution.json`을 `launcher-feed/distribution.json`에 올립니다. 이전 JAR도 남겨 두세요.
+5. 이후 사용자는 다음 게임 시작 시 변경된 모드만 받습니다. 서버와 클라이언트 코어 모드 버전을 함께 맞추세요.
+
+기타 모드는 처음 배포한 설치 파일에 내장됩니다. 다른 모드를 온라인으로 새로
+배포하려면 재배포 권한과 HTTPS 파일 주소를 확인한 뒤 `hosting.moduleUrls`에
+`"모드파일.jar": "https://.../모드파일.jar"` 형식으로 지정합니다. 주소를
+지정하지 않은 신규 모드는 기존 설치 파일에 없으므로 온라인 자동 설치가 되지 않습니다.
 
 ## 정식 배포 전에 반드시 설정할 값
 
 1. `launcher.microsoftClientId`
-2. `server.address` 및 `server.addressConfigured: true`
+2. `server.address` 및 `server.addressConfigured: true` (운영 서버 공개 시)
 3. 원하는 경우 런처 아이콘과 배경 이미지
 
 Microsoft 비밀번호는 런처가 직접 수집하거나 저장하지 않습니다.
