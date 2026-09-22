@@ -24,7 +24,7 @@ public class ShopAdminCommand extends CommandBase {
     @Override public java.util.List<String> getAliases() { return java.util.Collections.singletonList("shopadmin"); }
     @Override public int getRequiredPermissionLevel() { return 2; }
     @Override public String getUsage(ICommandSender sender) {
-        return "/상점관리 위치설정 | 생성 <이름> | 스킨 <상점ID> <닉네임> | 목록 | 시세 | 시세갱신 | 상품 <상점ID> | 구매권등록 <상점ID> <가격> | 등록 <상점ID> <구매|판매|둘다> <구매가> <판매가> <최저판매가> | 삭제상품 <상점ID> <상품번호> | 삭제 <상점ID>";
+        return "/상점관리 위치설정 | 생성 <이름> | 스킨 <상점ID> <닉네임> | 목록 | 시세 | 시세갱신 | 상품 <상점ID> | 구매권등록 <상점ID> <가격> | 등록 <상점ID> <구매|판매|둘다> <구매가> <판매가> <최저판매가> [최대판매가] | 최대가 <상점ID> <상품번호> <최대판매가> | 삭제상품 <상점ID> <상품번호> | 삭제 <상점ID>";
     }
 
     @Override public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
@@ -132,11 +132,26 @@ public class ShopAdminCommand extends CommandBase {
                 sender.sendMessage(Texts.text("&e#" + (i + 1) + " " + p.item.getDisplayName() +
                         " / 구매 " + (p.buyEnabled ? Texts.money(p.buyPrice) : "불가") +
                         " / 판매 " + (p.sellEnabled ? Texts.money(p.currentSellPrice) : "불가") +
-                        " / 이전 " + Texts.money(p.previousSellPrice) + " / 최저 " + Texts.money(p.minSellPrice) + " / 연속 하락 " + p.consecutiveDrops));
+                        " / 이전 " + Texts.money(p.previousSellPrice) + " / 최저 " + Texts.money(p.minSellPrice) +
+                        " / 최대 " + (p.maxSellPrice == 0 ? "제한없음" : Texts.money(p.maxSellPrice)) + " / 연속 하락 " + p.consecutiveDrops));
             }
             return;
         }
-        if ((args[0].equals("등록") || args[0].equals("register")) && args.length == 6) {
+        if ((args[0].equals("최대가") || args[0].equals("maxprice")) && args.length == 4) {
+            int index = parseInt(args[2], 1) - 1;
+            if (index >= shop.products.size()) throw new CommandException("상품 번호가 없습니다.");
+            ShopData.Product product = shop.products.get(index);
+            if (!product.sellEnabled) throw new CommandException("판매가 가능한 상품에만 최대 판매가를 설정할 수 있습니다.");
+            long cap = parseLong(args[3], 0, Long.MAX_VALUE);
+            if (cap > 0 && cap < product.minSellPrice) throw new CommandException("최대판매가는 최저판매가 이상이어야 합니다.");
+            product.maxSellPrice = cap;
+            if (cap > 0 && product.currentSellPrice > cap) product.currentSellPrice = cap;
+            product.previousSellPrice = product.currentSellPrice;
+            data.markDirty();
+            sender.sendMessage(Texts.text("&a상품 #" + (index + 1) + " 최대 판매가: " + (cap == 0 ? "제한없음" : Texts.money(cap))));
+            return;
+        }
+        if ((args[0].equals("등록") || args[0].equals("register")) && (args.length == 6 || args.length == 7)) {
             EntityPlayerMP admin = getCommandSenderAsPlayer(sender);
             ItemStack held = admin.getHeldItemMainhand();
             if (held.isEmpty()) throw new CommandException("등록할 상품을 주 손에 들어 주세요.");
@@ -146,8 +161,11 @@ public class ShopAdminCommand extends CommandBase {
             long buyPrice = parseLong(args[3], 0, Long.MAX_VALUE);
             long sellPrice = parseLong(args[4], 0, Long.MAX_VALUE);
             long floor = parseLong(args[5], 0, Long.MAX_VALUE);
+            long specifiedCap = args.length == 7 ? parseLong(args[6], 0, Long.MAX_VALUE) : 0;
             if (buy && buyPrice < 1 || sell && (sellPrice < 1 || floor < 1 || floor > sellPrice))
                 throw new CommandException("활성화된 가격은 1원 이상, 최저판매가는 판매가 이하여야 합니다.");
+            if (args.length == 7 && specifiedCap > 0 && (!sell || specifiedCap < sellPrice))
+                throw new CommandException("최대판매가는 판매가 이상이어야 합니다. 판매하지 않는 상품은 0으로 입력해 주세요.");
             ShopData.Product product = new ShopData.Product();
             product.item = held.copy();
             product.item.setCount(1);
@@ -163,6 +181,10 @@ public class ShopAdminCommand extends CommandBase {
                 ItemStack old = shop.products.get(i).item;
                 if (ItemStack.areItemsEqual(old, product.item) && ItemStack.areItemStackTagsEqual(old, product.item)) { index = i; break; }
             }
+            if (index >= 0 && args.length == 6 && sell) specifiedCap = shop.products.get(index).maxSellPrice;
+            if (sell && specifiedCap > 0 && specifiedCap < sellPrice)
+                throw new CommandException("등록 판매가가 기존 최대판매가를 넘습니다. 마지막 인수에 새 최대판매가를 지정하거나 0으로 해제하세요.");
+            product.maxSellPrice = sell ? specifiedCap : 0;
             if (index < 0) {
                 if (shop.products.size() >= 100) throw new CommandException("상점당 상품은 최대 100개입니다.");
                 shop.products.add(product); index = shop.products.size() - 1;

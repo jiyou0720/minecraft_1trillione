@@ -156,13 +156,17 @@ public final class ShopService {
         for (ShopData shop : data.shops.values()) for (ShopData.Product product : shop.products) {
             if (!product.sellEnabled) continue;
             long old = Math.max(product.minSellPrice, product.currentSellPrice);
+            if (product.maxSellPrice > 0) old = Math.min(old, product.maxSellPrice);
             long change = Math.max(1, Math.round(old * 0.10));
-            boolean rise = product.consecutiveDrops >= 5 || old <= product.minSellPrice || RANDOM.nextBoolean();
+            boolean rise = product.consecutiveDrops >= 5 || old <= product.minSellPrice
+                    || (product.maxSellPrice > old && RANDOM.nextBoolean())
+                    || (product.maxSellPrice == 0 && RANDOM.nextBoolean());
             long next = rise ? old > Long.MAX_VALUE - change ? Long.MAX_VALUE : old + change
                     : Math.max(product.minSellPrice, old - change);
+            if (product.maxSellPrice > 0) next = Math.min(next, product.maxSellPrice);
             product.previousSellPrice = old;
             product.currentSellPrice = next;
-            product.consecutiveDrops = rise ? 0 : product.consecutiveDrops + 1;
+            product.consecutiveDrops = next > old ? 0 : next < old ? Math.min(5, product.consecutiveDrops + 1) : product.consecutiveDrops;
             if (next != old) changed++;
         }
         data.nextShopPriceChange = now + PRICE_INTERVAL_MS;

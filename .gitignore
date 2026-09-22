@@ -41,7 +41,7 @@ launcher-admin/pack/
 
 # Keep the project's own release JAR only
 *.jar
-!release/donationserver-0.2.11.jar
+!release/donationserver-0.2.12.jar
 !server-mod/gradle/wrapper/gradle-wrapper.jar
 !launcher/build/
 !launcher/build/icon.png

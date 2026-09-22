@@ -43,7 +43,8 @@ public class ShopData {
     public static class Product {
         public ItemStack item;
         public boolean buyEnabled, sellEnabled;
-        public long buyPrice, baseSellPrice, minSellPrice, currentSellPrice, previousSellPrice;
+        // A zero maximum means unlimited, including for products saved by older versions.
+        public long buyPrice, baseSellPrice, minSellPrice, maxSellPrice, currentSellPrice, previousSellPrice;
         public int consecutiveDrops;
 
         public NBTTagCompound write() {
@@ -56,6 +57,7 @@ public class ShopData {
             n.setLong("buyPrice", buyPrice);
             n.setLong("baseSellPrice", baseSellPrice);
             n.setLong("minSellPrice", minSellPrice);
+            n.setLong("maxSellPrice", maxSellPrice);
             n.setLong("currentSellPrice", currentSellPrice);
             n.setLong("previousSellPrice", previousSellPrice);
             n.setInteger("consecutiveDrops", consecutiveDrops);
@@ -72,7 +74,10 @@ public class ShopData {
             p.buyPrice = Math.max(1, n.getLong("buyPrice"));
             p.baseSellPrice = Math.max(1, n.getLong("baseSellPrice"));
             p.minSellPrice = Math.max(1, n.getLong("minSellPrice"));
+            p.maxSellPrice = Math.max(0, n.getLong("maxSellPrice"));
+            if (p.maxSellPrice > 0 && p.maxSellPrice < p.minSellPrice) p.maxSellPrice = p.minSellPrice;
             p.currentSellPrice = Math.max(p.minSellPrice, n.getLong("currentSellPrice"));
+            if (p.maxSellPrice > 0) p.currentSellPrice = Math.min(p.currentSellPrice, p.maxSellPrice);
             p.previousSellPrice = n.hasKey("previousSellPrice") ? Math.max(0, n.getLong("previousSellPrice")) : p.currentSellPrice;
             p.consecutiveDrops = Math.max(0, Math.min(5, n.getInteger("consecutiveDrops")));
             return p;
