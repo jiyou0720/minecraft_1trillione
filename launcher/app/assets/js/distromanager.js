@@ -15,13 +15,20 @@ const api = new DistributionAPI(
     false
 )
 
-// The packaged index remains available if the online feed is temporarily unreachable.
+// Prefer the last online index when offline; use the bundled index only on first run.
 const localApi = new DistributionAPI(ConfigManager.getLauncherDirectory(), null, null, LOCAL_DISTRO_URL, false)
 const pullRemote = api.pullRemote.bind(api)
 api.pullRemote = async () => {
     const result = await pullRemote()
-    if (Array.isArray(result.data?.servers) && result.data.servers.length > 0) return result
-    return localApi.pullRemote()
+    if (result.data != null && (!Array.isArray(result.data.servers) || result.data.servers.length === 0)) result.data = null
+    return result
+}
+const pullLocal = api.pullLocal.bind(api)
+api.pullLocal = async () => {
+    const cached = await pullLocal()
+    if (cached != null) return cached
+    const bundled = await localApi.pullRemote()
+    return bundled.data
 }
 
 exports.DistroAPI = api
