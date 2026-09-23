@@ -6,7 +6,7 @@
       "name": "1억 기부 프로젝트",
       "description": "경제·농경·성장형 야생 서버",
       "icon": null,
-      "version": "0.2.12",
+      "version": "0.2.13",
       "address": "127.0.0.1:25565",
       "minecraftVersion": "1.12.2",
       "mainServer": true,
@@ -274,13 +274,13 @@
           }
         },
         {
-          "id": "kr.co:donationserver:0.2.12@jar",
+          "id": "kr.co:donationserver:0.2.13@jar",
           "name": "1억 기부 서버 코어",
           "type": "ForgeMod",
           "artifact": {
-            "size": 114539,
-            "url": "https://raw.githubusercontent.com/jiyou0720/minecraft_1trillione/main/release/donationserver-0.2.12.jar",
-            "MD5": "e92af85fce6a49c932754b71124dd1fa"
+            "size": 114635,
+            "url": "https://raw.githubusercontent.com/jiyou0720/minecraft_1trillione/main/release/donationserver-0.2.13.jar",
+            "MD5": "7e8d0c466258fb7ad87510c4c7eca4c1"
           }
         },
         {

@@ -21,7 +21,7 @@
     "addressConfigured": false,
     "minecraftVersion": "1.12.2",
     "forgeVersion": "14.23.5.2864",
-    "packVersion": "0.2.12",
+    "packVersion": "0.2.13",
     "autoConnect": false,
     "minimumMemoryMb": 2048,
     "recommendedMemoryMb": 4096

@@ -19,7 +19,7 @@ import org.apache.logging.log4j.Logger;
 public class DonationServerMod {
     public static final String MODID = "donationserver";
     public static final String NAME = "1억 기부 서버 코어";
-    public static final String VERSION = "0.2.12";
+    public static final String VERSION = "0.2.13";
 
     @SidedProxy(clientSide = "kr.co.donationserver.proxy.ClientProxy", serverSide = "kr.co.donationserver.proxy.CommonProxy")
     public static CommonProxy proxy;

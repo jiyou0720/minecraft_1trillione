@@ -156,14 +156,22 @@ public final class ShopService {
         for (ShopData shop : data.shops.values()) for (ShopData.Product product : shop.products) {
             if (!product.sellEnabled) continue;
             long old = Math.max(product.minSellPrice, product.currentSellPrice);
-            if (product.maxSellPrice > 0) old = Math.min(old, product.maxSellPrice);
+            long cap = Math.max(product.minSellPrice, product.maxSellPrice);
+            old = Math.min(old, cap);
             long change = Math.max(1, Math.round(old * 0.10));
-            boolean rise = product.consecutiveDrops >= 5 || old <= product.minSellPrice
-                    || (product.maxSellPrice > old && RANDOM.nextBoolean())
-                    || (product.maxSellPrice == 0 && RANDOM.nextBoolean());
-            long next = rise ? old > Long.MAX_VALUE - change ? Long.MAX_VALUE : old + change
-                    : Math.max(product.minSellPrice, old - change);
-            if (product.maxSellPrice > 0) next = Math.min(next, product.maxSellPrice);
+            long next;
+            if (product.minSellPrice == cap) {
+                next = old;
+            } else if (old >= cap) {
+                // At the ceiling the price may stay fixed or fall, but never rise.
+                next = RANDOM.nextBoolean() ? old : Math.max(product.minSellPrice, old - change);
+            } else {
+                // Consecutive rises are allowed. Five consecutive drops guarantee the next rise.
+                boolean rise = product.consecutiveDrops >= 5 || old <= product.minSellPrice
+                        || RANDOM.nextBoolean();
+                next = rise ? Math.min(cap, old > Long.MAX_VALUE - change ? Long.MAX_VALUE : old + change)
+                        : Math.max(product.minSellPrice, old - change);
+            }
             product.previousSellPrice = old;
             product.currentSellPrice = next;
             product.consecutiveDrops = next > old ? 0 : next < old ? Math.min(5, product.consecutiveDrops + 1) : product.consecutiveDrops;

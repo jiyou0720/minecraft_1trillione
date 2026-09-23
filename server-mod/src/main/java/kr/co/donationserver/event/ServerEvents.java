@@ -12,6 +12,7 @@ import kr.co.donationserver.util.Texts;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.monster.IMob;
+import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.play.server.SPacketParticles;
 import net.minecraft.network.play.server.SPacketTitle;
@@ -70,7 +71,7 @@ public enum ServerEvents {INSTANCE;
         pending.remove(id);cooldown.remove(id);borderUntil.remove(id);lastLand.remove(id);
     }
     @SubscribeEvent public void chat(ServerChatEvent e){PlayerData pd=DonationData.get(e.getPlayer().world).player(e.getPlayer().getUniqueID());if(pd.title!=null&&!pd.title.isEmpty())e.setComponent(new TextComponentString("§6["+pd.title+"] §f<"+e.getUsername()+"> "+e.getMessage()));}
-    @SubscribeEvent public void interact(PlayerInteractEvent.EntityInteract e){if(e.getWorld().isRemote||!(e.getEntityPlayer() instanceof EntityPlayerMP))return;EntityPlayerMP player=(EntityPlayerMP)e.getEntityPlayer();if(!LandService.canModify(player,e.getTarget().getPosition())){e.setCanceled(true);if(e.getHand()==net.minecraft.util.EnumHand.MAIN_HAND)player.sendMessage(Texts.text("&c다른 플레이어의 영지입니다."));return;}ShopData shop=ShopService.byNpc(DonationData.get(e.getWorld()),e.getTarget());if(shop!=null){e.setCanceled(true);if(e.getHand()==net.minecraft.util.EnumHand.MAIN_HAND)ShopService.open(player,shop);}}
+    @SubscribeEvent public void interact(PlayerInteractEvent.EntityInteract e){if(e.getWorld().isRemote||!(e.getEntityPlayer() instanceof EntityPlayerMP))return;EntityPlayerMP player=(EntityPlayerMP)e.getEntityPlayer();if(e.getTarget() instanceof EntityVillager){e.setCanceled(true);if(e.getHand()==net.minecraft.util.EnumHand.MAIN_HAND)player.sendMessage(Texts.text("&c일반 주민 거래는 사용할 수 없습니다. NPC 상점을 이용해 주세요."));return;}if(!LandService.canModify(player,e.getTarget().getPosition())){e.setCanceled(true);if(e.getHand()==net.minecraft.util.EnumHand.MAIN_HAND)player.sendMessage(Texts.text("&c다른 플레이어의 영지입니다."));return;}ShopData shop=ShopService.byNpc(DonationData.get(e.getWorld()),e.getTarget());if(shop!=null){e.setCanceled(true);if(e.getHand()==net.minecraft.util.EnumHand.MAIN_HAND)ShopService.open(player,shop);}}
     @SubscribeEvent public void protectShop(LivingAttackEvent e){if(!e.getEntity().world.isRemote&&ShopService.byNpc(DonationData.get(e.getEntity().world),e.getEntity())!=null)e.setCanceled(true);}
     @SubscribeEvent public void breakLand(BlockEvent.BreakEvent e){if(!e.getWorld().isRemote&&e.getPlayer() instanceof EntityPlayerMP){EntityPlayerMP p=(EntityPlayerMP)e.getPlayer();if(!LandService.canModify(p,e.getPos())||protectedShop(p,e.getPos())){e.setCanceled(true);p.sendMessage(Texts.text("&c보호된 영지 또는 상점가에서는 블록을 파괴할 수 없습니다."));}}}
     @SubscribeEvent public void placeLand(BlockEvent.PlaceEvent e){if(!e.getWorld().isRemote&&e.getPlayer() instanceof EntityPlayerMP){EntityPlayerMP p=(EntityPlayerMP)e.getPlayer();if(!LandService.canModify(p,e.getPos())||protectedShop(p,e.getPos())){e.setCanceled(true);p.sendMessage(Texts.text("&c보호된 영지 또는 상점가에서는 블록을 설치할 수 없습니다."));}}}
