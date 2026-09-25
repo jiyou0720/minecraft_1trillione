@@ -17,11 +17,11 @@
     "id": "donation-main",
     "name": "1억 기부 프로젝트",
     "description": "경제·농경·성장형 야생 서버",
-    "address": "127.0.0.1:25565",
-    "addressConfigured": false,
+    "address": "112.166.104.209:25565",
+    "addressConfigured": true,
     "minecraftVersion": "1.12.2",
     "forgeVersion": "14.23.5.2864",
-    "packVersion": "0.2.13",
+    "packVersion": "0.2.14",
     "autoConnect": false,
     "minimumMemoryMb": 2048,
     "recommendedMemoryMb": 4096
@@ -29,7 +29,9 @@
   "hosting": {
     "baseUrl": "http://127.0.0.1:38941/",
     "coreModBaseUrl": "https://raw.githubusercontent.com/jiyou0720/minecraft_1trillione/main/release/",
-    "moduleUrls": {}
+    "moduleUrls": {
+      "CustomNPCs_1.12.2-(05Jul20).jar": "https://mediafilez.forgecdn.net/files/2996/912/CustomNPCs_1.12.2-%2805Jul20%29.jar"
+    }
   },
   "links": {
     "home": "#",

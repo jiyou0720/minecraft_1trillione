@@ -11,6 +11,7 @@ import kr.co.donationserver.service.RandomBoxService;
 import kr.co.donationserver.util.Texts;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -24,11 +25,13 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+import net.minecraft.entity.EnumCreatureType;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.ExplosionEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -78,8 +81,16 @@ public enum ServerEvents {INSTANCE;
     @SubscribeEvent public void useLand(PlayerInteractEvent.RightClickBlock e){if(e.getWorld().isRemote||!(e.getEntityPlayer() instanceof EntityPlayerMP))return;EntityPlayerMP player=(EntityPlayerMP)e.getEntityPlayer();if(e.getHand()==net.minecraft.util.EnumHand.MAIN_HAND&&RandomBoxService.boxId(e.getItemStack())>0){e.setCanceled(true);RandomBoxService.open(player,e.getItemStack());return;}if(e.getHand()==net.minecraft.util.EnumHand.MAIN_HAND&&LandVoucher.isVoucher(e.getItemStack())){e.setCanceled(true);LandService.claim(player);return;}if(!LandService.canModify(player,e.getPos())){e.setCanceled(true);player.sendMessage(Texts.text("&c다른 플레이어의 영지입니다."));}}
     @SubscribeEvent public void useLandVoucher(PlayerInteractEvent.RightClickItem e){if(e.getWorld().isRemote||!(e.getEntityPlayer() instanceof EntityPlayerMP))return;EntityPlayerMP player=(EntityPlayerMP)e.getEntityPlayer();if(RandomBoxService.boxId(e.getItemStack())>0){e.setCanceled(true);RandomBoxService.open(player,e.getItemStack());return;}if(LandVoucher.isVoucher(e.getItemStack())){e.setCanceled(true);LandService.claim(player);}}
     @SubscribeEvent public void explosionLand(ExplosionEvent.Detonate e){if(!e.getWorld().isRemote){DonationData data=DonationData.get(e.getWorld());e.getAffectedBlocks().removeIf(pos->LandService.owner(e.getWorld(),pos)!=null||data.inShopRegion(e.getWorld().provider.getDimension(),pos.getX(),pos.getZ()));}}
-    @SubscribeEvent public void shopMobSpawn(LivingSpawnEvent.CheckSpawn e){if(!e.getWorld().isRemote&&e.getEntityLiving() instanceof IMob){BlockPos pos=e.getEntityLiving().getPosition();if(DonationData.get(e.getWorld()).inShopRegion(e.getWorld().provider.getDimension(),pos.getX(),pos.getZ()))e.setResult(Event.Result.DENY);}}
-    @SubscribeEvent public void shopMobInside(LivingEvent.LivingUpdateEvent e){EntityLiving living=e.getEntityLiving() instanceof EntityLiving?(EntityLiving)e.getEntityLiving():null;if(living!=null&&!living.world.isRemote&&living instanceof IMob&&living.ticksExisted%20==0){BlockPos pos=living.getPosition();if(DonationData.get(living.world).inShopRegion(living.dimension,pos.getX(),pos.getZ()))living.setDead();}}
+    @SubscribeEvent public void protectedMobSpawn(LivingSpawnEvent.CheckSpawn e){
+        if(!e.getWorld().isRemote&&isHostile(e.getEntityLiving())&&isMobProtected(e.getWorld(),e.getEntityLiving().getPosition()))e.setResult(Event.Result.DENY);
+    }
+    @SubscribeEvent public void protectedMobJoin(EntityJoinWorldEvent e){
+        if(!e.getWorld().isRemote&&e.getEntity() instanceof EntityLiving&&isHostile((EntityLiving)e.getEntity())&&isMobProtected(e.getWorld(),e.getEntity().getPosition()))e.setCanceled(true);
+    }
+    @SubscribeEvent public void protectedMobInside(LivingEvent.LivingUpdateEvent e){
+        EntityLiving living=e.getEntityLiving() instanceof EntityLiving?(EntityLiving)e.getEntityLiving():null;
+        if(living!=null&&!living.world.isRemote&&isHostile(living)&&living.ticksExisted%20==0&&isMobProtected(living.world,living.getPosition()))living.setDead();
+    }
     @SubscribeEvent public void serverTick(TickEvent.ServerTickEvent e){if(e.phase==TickEvent.Phase.END&&e.side.isServer()){MinecraftServer server=net.minecraftforge.fml.common.FMLCommonHandler.instance().getMinecraftServerInstance();if(server!=null&&server.getTickCounter()%100==0)ShopService.updatePrices(server);}}
     @SubscribeEvent public void tick(TickEvent.PlayerTickEvent e){if(e.phase!=TickEvent.Phase.END||e.player.world.isRemote||!(e.player instanceof EntityPlayerMP))return;EntityPlayerMP p=(EntityPlayerMP)e.player;UUID id=p.getUniqueID();
         PendingTravel pt=pending.get(id);if(pt!=null){if(p.getDistanceSq(pt.x,pt.y,pt.z)>.09){pending.remove(id);p.sendMessage(Texts.text("&c움직여서 이동이 취소되었습니다."));}else if(p.world.getTotalWorldTime()>=pt.executeAt){pending.remove(id);DonationData d=DonationData.get(p.world);PlayerData pd=d.player(id);pd.back=LocationData.of(p);d.markDirty();teleportNow(p,pt.target);cooldown.put(id,System.currentTimeMillis());p.sendMessage(Texts.text("&a안전하게 이동했습니다."));EconomyService.sync(p);}}
@@ -126,6 +137,13 @@ public enum ServerEvents {INSTANCE;
     }
     private boolean protectedShop(EntityPlayerMP player,BlockPos pos){
         return DonationData.get(player.world).inShopRegion(player.dimension,pos.getX(),pos.getZ());
+    }
+    private boolean isMobProtected(World world,BlockPos pos){
+        DonationData data=DonationData.get(world);
+        return LandService.owner(world,pos)!=null||data.inShopRegion(world.provider.getDimension(),pos.getX(),pos.getZ());
+    }
+    private boolean isHostile(EntityLivingBase living){
+        return living instanceof IMob||living.isCreatureType(EnumCreatureType.MONSTER,false);
     }
     public void requestTravel(EntityPlayerMP p,int action){DonationData d=DonationData.get(p.world);PlayerData pd=d.player(p.getUniqueID());LocationData target=action==0?pd.home:action==1?d.trade:pd.back;if(target==null){p.sendMessage(Texts.text("&c해당 이동 위치가 설정되지 않았습니다."));return;}Long last=cooldown.get(p.getUniqueID());long remain=last==null?0:ModConfig.teleportCooldownSeconds*1000L-(System.currentTimeMillis()-last);if(remain>0){p.sendMessage(Texts.text("&c이동 쿨다운: "+((remain+999)/1000)+"초"));return;}if(pending.containsKey(p.getUniqueID())){p.sendMessage(Texts.text("&e이미 이동을 준비 중입니다."));return;}long at=p.world.getTotalWorldTime()+ModConfig.teleportDelaySeconds*20L;pending.put(p.getUniqueID(),new PendingTravel(p.posX,p.posY,p.posZ,target,at));p.sendMessage(Texts.text("&e"+ModConfig.teleportDelaySeconds+"초 후 이동합니다. 움직이면 취소됩니다."));}
     private void teleportNow(EntityPlayerMP p,LocationData raw){MinecraftServer s=p.getServer();WorldServer w=s.getWorld(raw.dimension);if(w==null){p.sendMessage(Texts.text("&c대상 차원을 찾을 수 없습니다."));return;}LocationData loc=safe(w,raw);if(p.dimension!=loc.dimension)p.changeDimension(loc.dimension,new FixedTeleporter(loc));else p.connection.setPlayerLocation(loc.x,loc.y,loc.z,loc.yaw,loc.pitch);p.fallDistance=0;}

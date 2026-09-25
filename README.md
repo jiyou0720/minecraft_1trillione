@@ -10,7 +10,7 @@ Minecraft Java Edition 1.12.2 / Forge 14.23.5.2864 기반의 경제·농경·성
 - `approval-site/`: 런처 및 Microsoft Minecraft Services 승인 안내 페이지
 - `release/`: 최신 코어 모드 JAR과 설치·명령어 문서
 
-현재 코어 모드 버전은 **0.2.13**입니다.
+현재 코어 모드 버전은 **0.2.14**입니다.
 
 ## 코어 모드 빌드
 
@@ -21,7 +21,7 @@ cd server-mod
 .\gradlew.bat build
 ```
 
-결과물은 `server-mod/build/libs/donationserver-0.2.13.jar`입니다. 서버와 모든 접속 PC의 `mods` 폴더에 같은 버전을 설치해야 합니다.
+결과물은 `server-mod/build/libs/donationserver-0.2.14.jar`입니다. 서버에는 이 버전을 설치하며, 런처 0.2.5는 접속 PC에 자동으로 내려받습니다.
 
 ## 런처 개발
 
@@ -39,4 +39,4 @@ npm start
 
 Minecraft 원본 파일, Java 런타임, 테스트 월드, 로그, 사용자 계정 데이터와 제3자 모드 JAR은 저장소에 포함하지 않습니다. 각 모드는 해당 배포처와 라이선스 조건에 따라 별도로 받아야 합니다.
 
-최신 설치 방법은 `release/설치와_테스트.md`, 전체 명령어는 `release/명령어_전체목록_0.2.13.md`를 확인하세요.
+최신 설치 방법은 `release/설치와_테스트.md`, 전체 명령어는 `release/명령어_전체목록_0.2.13.md`를 확인하세요. 0.2.14에서는 명령어가 변경되지 않았습니다.

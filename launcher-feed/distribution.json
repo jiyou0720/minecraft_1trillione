@@ -6,8 +6,8 @@
       "name": "1억 기부 프로젝트",
       "description": "경제·농경·성장형 야생 서버",
       "icon": null,
-      "version": "0.2.13",
-      "address": "127.0.0.1:25565",
+      "version": "0.2.14",
+      "address": "112.166.104.209:25565",
       "minecraftVersion": "1.12.2",
       "mainServer": true,
       "autoconnect": false,
@@ -274,13 +274,23 @@
           }
         },
         {
-          "id": "kr.co:donationserver:0.2.13@jar",
+          "id": "noppes.npcs:customnpcs:1.12@jar",
+          "name": "CustomNPCs",
+          "type": "ForgeMod",
+          "artifact": {
+            "size": 9911871,
+            "url": "https://mediafilez.forgecdn.net/files/2996/912/CustomNPCs_1.12.2-%2805Jul20%29.jar",
+            "MD5": "3ab1a5c4b069d574631da5bc1880ebf7"
+          }
+        },
+        {
+          "id": "kr.co:donationserver:0.2.14@jar",
           "name": "1억 기부 서버 코어",
           "type": "ForgeMod",
           "artifact": {
-            "size": 114635,
-            "url": "https://raw.githubusercontent.com/jiyou0720/minecraft_1trillione/main/release/donationserver-0.2.13.jar",
-            "MD5": "7e8d0c466258fb7ad87510c4c7eca4c1"
+            "size": 114877,
+            "url": "https://raw.githubusercontent.com/jiyou0720/minecraft_1trillione/main/release/donationserver-0.2.14.jar",
+            "MD5": "6fd24820f870b4b7f485999cc41d9a0b"
           }
         },
         {
