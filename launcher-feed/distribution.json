@@ -264,12 +264,12 @@
           }
         },
         {
-          "id": "moe.plushie:armourers_workshop:1.12.2-0.51.0@jar",
+          "id": "moe.plushie:Armourers-Workshop:1.12.2-0.51.0@jar",
           "name": "Armourer's Workshop",
           "type": "ForgeMod",
           "artifact": {
             "size": 2678747,
-            "url": "http://127.0.0.1:38941/servers/donation-main-1.12.2/forgemods/required/Armourers-Workshop-1.12.2-0.51.0.jar",
+            "url": "https://mediafilez.forgecdn.net/files/3101/995/Armourers-Workshop-1.12.2-0.51.0.jar",
             "MD5": "12954551f39bed840b32fd8be8fddb54"
           }
         },

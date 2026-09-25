@@ -30,7 +30,11 @@
     "baseUrl": "http://127.0.0.1:38941/",
     "coreModBaseUrl": "https://raw.githubusercontent.com/jiyou0720/minecraft_1trillione/main/release/",
     "moduleUrls": {
-      "CustomNPCs_1.12.2-(05Jul20).jar": "https://mediafilez.forgecdn.net/files/2996/912/CustomNPCs_1.12.2-%2805Jul20%29.jar"
+      "CustomNPCs_1.12.2-(05Jul20).jar": "https://mediafilez.forgecdn.net/files/2996/912/CustomNPCs_1.12.2-%2805Jul20%29.jar",
+      "Armourers-Workshop-1.12.2-0.51.0.jar": "https://mediafilez.forgecdn.net/files/3101/995/Armourers-Workshop-1.12.2-0.51.0.jar"
+    },
+    "moduleIds": {
+      "Armourers-Workshop-1.12.2-0.51.0.jar": "moe.plushie:Armourers-Workshop:1.12.2-0.51.0@jar"
     }
   },
   "links": {

@@ -20,6 +20,16 @@ if (!version || !/^\d+\.\d+\.\d+$/.test(version)) throw new Error(`알 수 없�
 const fileName = `donationserver-${version}.jar`
 core.artifact.url = new URL(encodeURIComponent(fileName), baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`).href
 
+// Some legacy mods validate their own exact JAR file name. Helios normally
+// derives that name from the Maven artifact id, so allow an operator override.
+for (const [name, id] of Object.entries(config.hosting.moduleIds || {})) {
+  if (!/^[^:]+:[^:]+:[^@]+@jar$/.test(id)) throw new Error(`잘못된 모듈 ID입니다: ${name} -> ${id}`)
+  const matches = server.modules.filter(item => item.type === 'ForgeMod' &&
+    decodeURIComponent(new URL(item.artifact.url).pathname).split('/').pop() === name)
+  if (matches.length !== 1) throw new Error(`모듈 ID를 변경할 모드를 찾지 못했거나 중복입니다: ${name}`)
+  matches[0].id = id
+}
+
 // Other mods stay in the one-time installer until the operator supplies a
 // redistributable HTTPS file URL. This avoids publishing third-party JARs by default.
 for (const [name, url] of Object.entries(config.hosting.moduleUrls || {})) {
